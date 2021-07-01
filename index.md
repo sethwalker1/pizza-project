@@ -10,7 +10,7 @@ title: Home
         <div class="col-md-6" style="padding: 1rem; background: red;">
             <div class="row">
                 <div class="col-md-8" style="background: red;">
-                    <h3>Cheese Pizza</h3>
+                    <h3>Pepperoni Pizza</h3>
                     <p>sample description</p>
                 </div>
                 <div class="col-md-4" style="background: red;">
