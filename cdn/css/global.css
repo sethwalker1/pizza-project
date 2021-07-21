@@ -1,0 +1,98 @@
+/* Variables */
+:root {
+    --primary-color: #1266f1;
+    --primary-hover-color: #0c56d0;
+    --secondary-color: #b23cfd;
+    --secondary-hover-color: #a316fd;
+    --info-color: #39c0ed;
+    --info-hover-color: #16b5ea;
+    --warning-color: #ffa900;
+    --warning-hover-color: #d99000;
+    --danger-color: #f93154;
+    --danger-hover-color: #f80c35;
+}
+
+html, body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Button Override */
+.btn {
+    color: unset;
+    background-color: unset !important;
+    box-shadow: none !important;
+    border-radius: 100vw;
+}
+
+.btn:hover {
+    color: unset;
+    background-color: unset;
+    box-shadow: none !important;
+}
+
+/* Button Colors */
+.btn-primary {
+    color: var(--primary-color) !important;
+    border: 0.125rem solid var(--primary-color) !important;
+}
+
+.btn-secondary {
+    color: var(--secondary-color) !important;
+    border: 0.125rem solid var(--secondary-color) !important;
+}
+
+.btn-info {
+    color: var(--info-color) !important;
+    border: 0.125rem solid var(--info-color) !important;
+}
+
+.btn-warning {
+    color: var(--warning-color) !important;
+    border: 0.125rem solid var(--warning-color) !important;
+}
+
+.btn-danger {
+    color: var(--danger-color) !important;
+    border: 0.125rem solid var(--danger-color) !important;
+}
+
+.btn-primary:hover {
+    color: var(--primary-hover-color) !important;
+    border: 0.125rem solid var(--primary-hover-color) !important;
+}
+
+.btn-secondary:hover {
+    color: var(--secondary-hover-color) !important;
+    border: 0.125rem solid var(--secondary-hover-color) !important;
+}
+
+.btn-info:hover {
+    color: var(--info-hover-color) !important;
+    border: 0.125rem solid var(--info-hover-color) !important;
+}
+
+.btn-warning:hover {
+    color: var(--warning-hover-color) !important;
+    border: 0.125rem solid var(--warning-hover-color) !important;
+}
+
+.btn-danger:hover {
+    color: var(--danger-hover-color) !important;
+    border: 0.125rem solid var(--danger-hover-color) !important;
+}
+
+/* Menu Items */
+.menuItem > .row {
+    margin: 1rem 0.25rem 0.5rem 0;
+    padding: 0.5rem;
+    /* border: #B23CFD 1px solid; */
+    border-radius: 0.25rem;
+}
+
+.squareImg {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}

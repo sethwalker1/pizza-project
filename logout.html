@@ -1,0 +1,41 @@
+---
+permalink: /logout
+layout: default
+title: Logout
+container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-center flex-grow-1
+---
+
+<style type="text/css" media="screen">
+    .container {
+        margin: 10px auto;
+        max-width: 600px;
+        text-align: center;
+    }
+    h1 {
+        margin: 30px 0;
+        font-size: 4em;
+        line-height: 1;
+        letter-spacing: -1px;
+    }
+</style>
+
+<div class="container">
+    <img class="w-100" src="/cdn/img/logout.svg">
+    <p class="mt-5"><strong>You've successfully signed out. See you next time!</strong></p>
+    <p>Redirecting you to the home page in <span>3</span>...</p>
+</div>
+
+<script>
+    localStorage.removeItem('loginToken');
+
+    let countdown = document.querySelector('.container p > span');
+    if (countdown)
+        setInterval(() => {
+            let count = parseInt(countdown.innerHTML);
+
+            countdown.innerHTML = Math.max(0, count - 1);
+            if (count > 1) return;
+            window.location.href = '/';
+        }, 1000);
+    else setTimeout(() => { window.location.href = '/' }, 3000);
+</script>
