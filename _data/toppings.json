@@ -1,0 +1,78 @@
+[
+    {
+        "name": "Pepperoni",
+        "cost": 0.00
+    },
+    {
+        "name": "Sausage",
+        "cost": 0.00
+    },
+    {
+        "name": "Bacon",
+        "cost": 0.00
+    },
+    {
+        "name": "Beef",
+        "cost": 0.00
+    },
+    {
+        "name": "Chicken",
+        "cost": 0.00
+    },
+    {
+        "name": "Anchovies",
+        "cost": 0.00
+    },
+    {
+        "name": "Japapenos",
+        "cost": 0.00
+    },
+    {
+        "name": "Onions",
+        "cost": 0.00
+    },
+    {
+        "name": "Banana Peppers",
+        "cost": 0.00
+    },
+    {
+        "name": "Black Olives",
+        "cost": 0.00
+    },
+    {
+        "name": "Mushrooms",
+        "cost": 0.00
+    },
+    {
+        "name": "Pineapple",
+        "cost": 0.00
+    },
+    {
+        "name": "Provolone Cheese",
+        "cost": 0.00
+    },
+    {
+        "name": "Cheddar Cheese",
+        "cost": 0.00
+    },
+    {
+        "name": "Green Peppers",
+        "cost": 0.00
+    },
+    {
+        "name": "Spinach",
+        "cost": 0.00
+    },
+    {
+        "name": "Red Peppers",
+        "cost": 0.00
+    },
+    {
+        "name": "Shredded Parmesan",
+        "cost": 0.00
+    },
+    {
+        "name": "Buffalo Sauce",
+        "cost": 0.00
+    }
+]

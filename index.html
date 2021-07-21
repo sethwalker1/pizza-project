@@ -1,15 +1,22 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
 layout: default
 title: Home
+container_class: mt-4
 ---
 <div class="container-md">
     <div class="row">
-        {% include menuItem.html name="Cheese Pizza" desc="sample description" img="//www.pizzahut.com/assets/w/tile/thor/pizza_Cheese.png" %}
-        {% include menuItem.html name="Pepperoni Pizza" desc="sample description" img="//www.pizzahut.com/assets/w/tile/thor/pizza_Pepperoni.png" %}
-        {% include menuItem.html name="Meat Lovers Pizza" desc="sample description" img="//www.pizzahut.com/assets/w/tile/thor/MeatLovers_RecipeTile_Web_175x210.png" %}
+        {% include menuItem.html name="Cheese Pizza" desc="A choice between thin or thick crust, topped with Mozzarella cheese." img="//www.pizzahut.com/assets/w/tile/thor/pizza_Cheese.png" %}
+        {% include menuItem.html name="Pepperoni Pizza" desc="A choice between thin or thick crust, baked with with pepperoni, paprika, and chili powder." img="//images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=256" %}
+        {% include menuItem.html name="The Wax" desc="Topped with black olives, mushrooms, onions, and mozzarella cheese sprinkles." img="//www.pizzahut.com/assets/w/tile/thor/MeatLovers_RecipeTile_Web_175x210.png" %}
+        {% include menuItem.html name="Zucchini Pizza" desc="Topped with zucchini, marinara sauce, kosher salt, and shredded mozzarella." img="//www.seriouseats.com/thmb/QY7gRw1XBfuP9qDfKk84aP5m34s=/1500x844/smart/filters:no_upscale()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__2015__07__20150702-zucchini-pizza-worth-eating-10-dfa07ad4eb9a4b648cb47853f2dd4acd.jpg" %}
+        {% include menuItem.html name="Buffalo Chicken Pizza" desc="Topped with grilled chicken breast, hot sauce, fresh onions, crust, and cheddar cheese." img="//cache.dominos.com/olo/6_58_0/assets/build/market/US/_en/images/img/products/larges/S_PIZBP.jpg" %}
+        {% include menuItem.html name="Build Your Own" desc="Build your dream pizza." img="//images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=256" %}
     </div>
     {% include menuModal.html %}
 </div>
+
+<script>
+function change_preview(img) {
+    document.querySelector('#preview_pizza').src = img;
+}
+</script>

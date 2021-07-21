@@ -1,8 +1,8 @@
 <div id="menuModal" class="modal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h3 class="modal-title">Pizza Builder</h3>
                 <button
                     type="button"
                     class="btn-close"
@@ -10,9 +10,47 @@
                     aria-label="Close"
                 ></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body col">
+                <div class="row mb-3">
+                    <div class="col">
+                        <img id="preview_pizza" class="squareImg" style="height: 12rem;">
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">My Pizza</h5>
+                                <div class="row" style="margin-left: 0">
+                                    Quantity
+                                    <div class="col-3">
+                                        <input class="form-control form-control-sm mb-2" type="text" value="1">
+                                    </div>
+                                </div>
+                                <button id="add_to_cart" class="btn btn-secondary btn-block" type="submit">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Toppings</h5>
+                    <div class="col">
+                        {% assign size = site.data.toppings.size %}
+                        {% assign breakcol = size | divided_by: 3.0 | ceil %}
+
+                        {% for i in (1..size) %}
+                            {% assign j = i | minus: 1 %}
+                            {% assign item = site.data.toppings[j] %}
+                            {% assign id = "topping_" | append: item.name | downcase %}
+                            {% include checkbox.html id=id label=item.name %}
+
+                            {% assign row = i | modulo: breakcol %}
+                            {% if row == 0 %}
+                                </div><div class="col">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
                 <!-- Tabs navs -->
-                <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+                {%- comment -%} <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a
                             class="nav-link active"
@@ -78,21 +116,18 @@
                     >
                         Tab 3 content
                     </div>
-                </div>
+                </div> {%- endcomment -%}
                 <!-- Tabs content -->
-            </div>
-            <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-mdb-dismiss="modal"
-                >
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                    Save changes
-                </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector('#add_to_cart').addEventListener('click', e => {
+        e.preventDefault();
+        localStorage.setItem('loginToken', '123');
+        window.location.href = '/cart';
+    });
+</script>
+
