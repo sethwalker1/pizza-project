@@ -1,0 +1,27 @@
+jobs:
+  include:
+    - language: ruby
+      rvm:
+        - 2.6.6
+
+      addons:
+        apt:
+          packages:
+          - libcurl4-openssl-dev
+
+      gemfile: www/Gemfile
+      before_install: cd www
+      script: bundle exec jekyll build
+
+    # - language: java
+    #   jdk: oraclejdk16
+    #   before_install: cd server
+    #   script: mvn clean install
+
+exclude: [vendor]
+cache: # caching bundler gem packages will speed up build
+  - bundler
+
+# Optional: disable email notifications about the outcome of your builds
+notifications:
+  email: false
