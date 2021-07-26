@@ -83,6 +83,14 @@ html, body {
     border: 0.125rem solid var(--danger-hover-color) !important;
 }
 
+.custom-select {
+    padding: .375rem 1.75rem .375rem .75rem;
+    color: #495057;
+    vertical-align: middle;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
 /* Menu Items */
 .menuItem > .row {
     margin: 1rem 0.25rem 0.5rem 0;

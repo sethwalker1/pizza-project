@@ -2,6 +2,22 @@ const bcrypt = require('bcryptjs')
 const express = require('express')
 const router = express.Router();
 
+router.post('/verifyIntegrity', async (req, res) => {
+    const {
+        body: { token },
+        method,
+    } = req
+
+    let user = await sql.query(`
+        SELECT id
+        FROM users
+        WHERE token = ?
+        LIMIT 1`, [token]);
+
+    if (!user) return res.json({ error: 'Invalid token. Try logging back in.' })
+    res.status(200).end();
+})
+
 router.post('/login', async (req, res) => {
     const {
         body: { email, password },

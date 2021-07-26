@@ -17,6 +17,8 @@ container_class: mt-4
 
 <script>
 function updateModal(id, img) {
+    if (!localStorage.getItem('loginToken')) window.location.href = '/login';
+
     document.querySelector('#add_to_cart').setAttribute('data-id', id);
     document.querySelector('#preview_pizza').src = img;
 }

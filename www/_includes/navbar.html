@@ -20,6 +20,9 @@
         <li id="login" class="nav-item me-3 me-lg-0" style="display: none">
           <a class="nav-link" href="/login"><i class="fas fa-user-alt"></i></a>
         </li>
+        <li id="history" class="nav-item me-3 me-lg-0" style="display: none">
+          <a class="nav-link" href="/history"><i class="fas fa-list-ol"></i></a>
+        </li>
         <li id="logout" class="nav-item me-3 me-lg-0" style="display: none">
           <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
         </li>
@@ -36,6 +39,6 @@
 
 <script>
   let token = localStorage.getItem('loginToken'), btn;
-  btn = token ? document.querySelector('#logout') : document.querySelector('#login');
-  btn.style.display = 'block';
+  btn = token ? $('#logout, #history') : $('#login');
+  btn.css('display', 'block')
 </script>

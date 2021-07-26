@@ -1,0 +1,101 @@
+---
+layout: default
+title: Order History
+container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-center flex-grow-1 mt-2
+---
+
+<img class="col-8 col-lg-5 col-md-6 d-flex align-self-center" src="/cdn/img/receipt.svg">
+
+<div class="orders"></div>
+
+<script>
+    async function removeItem(id) {
+        let token = localStorage.getItem('loginToken');
+        let res = await $.post('{{ site.api }}/cart/remove', { token, id });
+        if (typeof res === 'string') {
+            let item = $(`a[data-id="${id}"]`);
+            let parent = item.parent().parent();
+            let price = Number(parent[0].querySelector('.price').innerHTML);
+            parent.remove();
+
+            let subtotal = $('#subtotal');
+            subtotal.html(`$${(Number(subtotal.text().slice(1)) - price).toFixed(2)}`);
+        }
+    }
+
+    (async () => {
+        let token = localStorage.getItem('loginToken');
+        let res = await $.post('{{ site.api }}/cart/fetchall', { token });
+        if (!res || !res.data) console.error('error');
+        else if (res.error) alert(res.error);
+        else {
+            // something in cart
+            let orders = res.data;
+            console.log(orders);
+            orders.map((order, i) => {
+                console.log('order #', i);
+                $('.orders').append(`<div class="modal-dialog modal-notify modal-info" role="document" data-order-id="${order.id}">
+                    <div class="modal-content text-center">
+                        <div class="modal-body">
+                            <form class="text-center border border-light p-3" action="#!">
+                                <table class="table table-hover m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Product name</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table"></tbody>
+                                </table>
+                            </form>
+
+                            <div class="d-inline-flex pb-3">
+                                <!--<p class="mx-2 my-auto">Order #<span class="order_no">0</span></p>-->
+                                <p class="mx-2 my-auto">Ordered at: <span class="time">--</span></p>
+                                <p class="mx-2 my-auto">Subtotal: <span class="subtotal">$0.00</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+
+                let { id, time, items } = order;
+                console.log({ id, time, items });
+                let timestamp = new Date(time * 1000).toLocaleDateString('en-us', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    timeZone: 'est',
+                    hour12: true
+                });
+                $(`[data-order-id="${order.id}"] .time`).html(timestamp);
+
+                let subtotal = 0;
+                items.map((item, j) => {
+                    console.log('item #', j)
+                    let price = item.price * item.quantity;
+                    if (item.toppings) {
+                        for (let topping of item.toppings)
+                            price += topping.price
+                    }
+
+                    item.price = price.toFixed(2);
+                    subtotal += price;
+
+                    console.log('append');
+                    $(`[data-order-id="${order.id}"] .table`).first().append(`<tr>
+                        <th scope="row">${item.quantity}</th>
+                        <td>${item.name}</td>
+                        <td class="price">${item.price}</td>
+                    </tr>`);
+                });
+                console.log(items);
+
+                subtotal = subtotal.toFixed(2);
+                $(`[data-order-id="${order.id}"] .subtotal`).html(`$${subtotal}`);
+            });
+        }
+    })();
+</script>

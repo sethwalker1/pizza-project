@@ -27,6 +27,17 @@
             type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         ></script>
+        <script>
+            (async () => {
+                let token = localStorage.getItem('loginToken');
+                if (token) {
+                    let res = await $.post('{{ site.api }}/auth/verifyIntegrity', { token });
+                    if (!res || !res.error) return;
+                    localStorage.removeItem('loginToken');
+                    window.location.reload();
+                }
+            })();
+        </script>
         {% include navbar.html %}
         <div class="container-fluid {% if page.container_class %}{{ page.container_class }}{% endif %}">
             {{ content }}

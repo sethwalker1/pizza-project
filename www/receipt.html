@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Cart
+title: Receipt
 container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-center flex-grow-1 mt-2
 ---
 
-<img class="col-8 col-lg-5 col-md-6 d-flex align-self-center" src="/cdn/img/cart.svg">
+<img class="col-8 col-lg-5 col-md-6 d-flex align-self-center" src="/cdn/img/invoice.svg">
 
 <!--Modal: modalPush-->
 <div class="modal-dialog modal-notify modal-info" role="document">
@@ -28,14 +28,10 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             </form>
 
             <div class="d-inline-flex pb-3">
-                <select id="type" class="browser-default custom-select m-2">
-                    <option value="1" selected>Takeout</option>
-                    <option value="2">Delivery</option>
-                </select>
-                <p class="mx-2 my-auto">Subtotal: <span id="subtotal">$0.00</span></p>
+                <!-- <p class="mx-2 my-auto">Order #<span id="order_no">0</span></p> -->
+                <p class="mx-2 my-auto">Ordered at: <span id="time">--</span></p>
+                <p class="mx-2 my-auto">Subtotal: $<span id="subtotal">0.00</span></p>
             </div>
-
-            <button id="check_out" class="btn btn-secondary btn-block mb-4" type="submit">Check out</button>
         </div>
     </div>
     <!--/.Content-->
@@ -49,25 +45,35 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
         if (typeof res === 'string') {
             let item = $(`a[data-id="${id}"]`);
             let parent = item.parent().parent();
-            let price = Number(parent[0].querySelector('.price').innerHTML);
+            let price = Number(parent.first().querySelector('.price').innerHTML);
             parent.remove();
 
             let subtotal = $('#subtotal');
-            subtotal.html(`$${(Number(subtotal.text().slice(1)) - price).toFixed(2)}`);
+            subtotal.html(`${(Number(subtotal.text()) - price).toFixed(2)}`);
         }
     }
 
     (async () => {
         let token = localStorage.getItem('loginToken');
-        let res = await $.post('{{ site.api }}/cart/fetch', { token });
+        let res = await $.post('{{ site.api }}/cart/receipt', { token });
+        console.log(res);
         if (!res || !res.data) console.error('error');
         else if (res.error) alert(res.error);
-        else if (!res.data.length) {
-            // nothing in cart
-            console.log('nothing in cart')
-        } else {
+        else {
             // something in cart
-            let items = res.data;
+            let { id, time, items } = res.data;
+            // $('#order_no').html(id)
+            let timestamp = new Date(time * 1000).toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                timeZone: 'est',
+                hour12: true
+            });
+            $('#time').html(timestamp);
+
             let subtotal = 0;
             items.map((item, i) => {
                 let price = item.price * item.quantity;
@@ -89,22 +95,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             console.log(items);
 
             subtotal = subtotal.toFixed(2);
-            $('#subtotal').html(`$${subtotal}`);
+            $('#subtotal').html(subtotal);
         }
     })();
-
-    document.querySelector('#check_out').addEventListener('click', async e => {
-        e.preventDefault();
-        let token = localStorage.getItem('loginToken');
-        let res = await $.post('{{ site.api }}/cart/checkout', {
-            token,
-            type: document.querySelector('#type').value
-        });
-
-        if (typeof res === 'string') {
-            window.location.href = '/receipt';
-        } else if (!res || res.error) {
-            console.error(res.error);
-        }
-    });
 </script>
