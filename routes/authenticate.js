@@ -45,10 +45,11 @@ router.post('/register', async (req, res) => {
     const token = Buffer.from(email).toString('base64')
     let r2 = await sql.query(`
         INSERT INTO users (email, password, token, time, access)
-        VALUES (?, ?, ?, NOW(), 0)`, [
+        VALUES (?, ?, ?, ?, 0)`, [
             email,
             encrypted_password,
-            token
+            token,
+            ~~(Date.now() / 1000)
         ])
 
     if (r2 && r2.affectedRows)

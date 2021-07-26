@@ -16,7 +16,7 @@ class SQLParser {
     } : {
         connectionLimit: 128,
         host    : 'localhost',
-        user    : 'root',
+        user    : 'pizza_project',
         password: '',
         database: 'pizza_project',
         charset : 'latin1_swedish_ci'

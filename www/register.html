@@ -49,11 +49,11 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 <!-- Default form register -->
 
 <script>
-    document.querySelector('#sign_up').addEventListener('click', e => {
+    document.querySelector('#sign_up').addEventListener('click', async e => {
         e.preventDefault();
-        let res = await $.post('{{ site.api }}/auth/login', {
+        let res = await $.post('{{ site.api }}/auth/register', {
             email: document.getElementById('defaultRegisterFormEmail').value,
-            password: document.getElementById('defaultLoginFormPassword').value
+            password: document.getElementById('password').value
         });
 
         if (!res) return alert("Internal Server Error");

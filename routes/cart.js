@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 
     console.log(order);
     let items = await sql.query(`
-        SELECT items.id as item_id, items.product_id, items.quantity, products.name, products.cost as price FROM orders
+        SELECT items.id, items.product_id, items.quantity, products.name, products.cost as price FROM orders
         INNER JOIN order_items as items
             ON orders.id = items.order_id
         JOIN products
@@ -40,8 +40,8 @@ router.post('/', async (req, res) => {
     
     let result = {};
     items.map(item => {
-        let { name, price, quantity } = item;
-        return result[item.item_id] = { name, price, quantity };
+        let { id, name, price, quantity } = item;
+        return result[id] = { id, name, price, quantity };
     });
 
     let toppings = await sql.query(`
@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
         JOIN toppings
             ON orders.topping_id = toppings.id
         WHERE order_id = ?`, [order]);
-    console.log(toppings);
+
     if (toppings) {
         for (let topping of toppings) {
             if (!result[topping.order_item].toppings)

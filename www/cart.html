@@ -20,7 +20,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                             <th>#</th>
                             <th>Product name</th>
                             <th>Price</th>
-                            <!-- <th>Remove</th> -->
+                            <th>Remove</th>
                         </tr>
                     </thead>
                     <tbody id="table"></tbody>
@@ -35,6 +35,15 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 <!--Modal: modalPush-->
 
 <script>
+    async function removeItem(id) {
+        let res = await $.post('{{ site.api }}/cart/remove', { id });
+        console.log(res);
+        if (typeof res === 'string') {
+            let item = $(`a[data-id="${id}"]`);
+            item.parent().parent().remove();
+        }
+    }
+
     (async () => {
         let token = localStorage.getItem('loginToken');
         let res = await $.post('{{ site.api }}/cart', { token });
@@ -55,14 +64,14 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                         price += topping.price
                 }
 
-                item.price = price;
+                item.price = ~~(price * 100) / 100;
                 subtotal += price;
 
                 $('#table').append(`<tr>
                     <th scope="row">1</th>
                     <td>${item.name}</td>
                     <td>${item.price}</td>
-                    <!--<td><a href="#" style="color: black"><i class="fas fa-times"></i></a></td>-->
+                    <td><a href="#" onclick="removeItem(${item.id})" data-id="${item.id}" style="color: black"><i class="fas fa-times"></i></a></td>
                 </tr>`);
                     
             });
