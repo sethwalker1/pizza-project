@@ -27,6 +27,8 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                 </table>
             </form>
 
+            <p>Subtotal: <span id="subtotal">$0.00</span></p>
+
             <button id="check_out" class="btn btn-secondary btn-block mb-4" type="submit">Check out</button>
         </div>
     </div>
@@ -36,8 +38,8 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 
 <script>
     async function removeItem(id) {
-        let res = await $.post('{{ site.api }}/cart/remove', { id });
-        console.log(res);
+        let token = localStorage.getItem('loginToken');
+        let res = await $.post('{{ site.api }}/cart/remove', { token, id });
         if (typeof res === 'string') {
             let item = $(`a[data-id="${id}"]`);
             item.parent().parent().remove();
@@ -46,7 +48,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 
     (async () => {
         let token = localStorage.getItem('loginToken');
-        let res = await $.post('{{ site.api }}/cart', { token });
+        let res = await $.post('{{ site.api }}/cart/fetch', { token });
         console.log(res);
         if (!res || !res.data) console.error('error');
         else if (res.error) alert(res.error);
@@ -64,7 +66,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                         price += topping.price
                 }
 
-                item.price = ~~(price * 100) / 100;
+                item.price = price.toFixed(2);
                 subtotal += price;
 
                 $('#table').append(`<tr>
@@ -73,9 +75,11 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                     <td>${item.price}</td>
                     <td><a href="#" onclick="removeItem(${item.id})" data-id="${item.id}" style="color: black"><i class="fas fa-times"></i></a></td>
                 </tr>`);
-                    
             });
             console.log(items);
+
+            subtotal = subtotal.toFixed(2);
+            $('#subtotal').html(`$${subtotal}`);
         }
     })();
 

@@ -1,14 +1,13 @@
 const express = require('express')
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/fetch', async (req, res) => {
     console.log('/cart')
     const {
         body: { token },
         method,
     } = req
 
-    console.log(token);
     let user = await sql.query(`
         SELECT id
         FROM users
@@ -22,7 +21,6 @@ router.post('/', async (req, res) => {
         WHERE user_id = ? AND status = 0
         ORDER BY time DESC LIMIT 1`,
         [user])
-    console.log(order);
     if (!order) return res.json({ data: [] })
     order = order.id
 
@@ -126,36 +124,37 @@ router.post('/add', async (req, res) => {
     res.status(200).end()
 })
 
-router.post('/modify', async (req, res) => {
+router.post('/remove', async (req, res) => {
     const {
-        body: { name, email, password },
+        body: { token, id },
         method,
     } = req
 
-    let r = await sql.query(`
-        SELECT *
+    let user = await sql.query(`
+        SELECT id
         FROM users
-        WHERE email = ?
-        LIMIT 1`,
-        [email])
+        WHERE token = ?
+        LIMIT 1`, [token]);
+    if (!user) return res.json({ error: 'Invalid token. Try logging back in.' })
+    user = user.id
 
-    if (r) return res.json({ error: 'A user already exists with the specified email ID!' })
+    let order = await sql.query(`
+        SELECT id FROM orders
+        WHERE user_id = ? AND status = 0
+        ORDER BY time DESC LIMIT 1`,
+        [user])
+    if (!order) return res.json({ data: [] })
+    order = order.id
 
-    const salt = await bcrypt.genSalt(10)
-    const encrypted_password = await bcrypt.hash(password, salt)
-    const token = Buffer.from(email).toString('base64')
-    let r2 = await sql.query(`
-        INSERT INTO users (email, password, token, time, access)
-        VALUES (?, ?, ?, NOW(), 0)`, [
-            email,
-            encrypted_password,
-            token
-        ])
+    await sql.query(`
+        DELETE FROM order_modifications
+        WHERE order_item = ?`, [id]);
 
-    if (r2 && r2.affectedRows)
-        return res.send(token)
+    await sql.query(`
+        DELETE FROM order_items
+        WHERE id = ?`, [id]);
 
-    res.status(500).end()
+    res.status(200).end();
 })
 
 module.exports = router
