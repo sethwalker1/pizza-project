@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/sethwalker1/pizza-project.svg?token=QwzyWZdv7HDK4kqmD2uU&branch=main)](https://travis-ci.com/sethwalker1/pizza-project)
 
-## Installation.
+## Installation
 Warning: Installing Ruby + Jekyll can be a painstaking process on windows, and it is **highly** recommended to use the [live demo](https://pizza-project.sethw.me/) instead.
 
 Install [Jekyll](https://jekyllrb.com/docs/installation/)
