@@ -28,6 +28,12 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 <script>
     localStorage.removeItem('loginToken');
 
+    let loginBtn = document.querySelector('#login');
+    loginBtn.style.display = 'block';
+
+    let logoutBtn = document.querySelector('#logout');
+    logoutBtn.style.display = 'none';
+
     let countdown = document.querySelector('.container p > span');
     if (countdown)
         setInterval(() => {

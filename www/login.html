@@ -12,10 +12,10 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
     <p class="h4 mb-4">Sign in</p>
 
     <!-- Email -->
-    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail" value="user@example.com">
+    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail" value="seth5728@gmail.com">
 
     <!-- Password -->
-    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password" value="password">
+    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password" value="SethW5728">
 
     <div class="d-flex justify-content-around">
         <div>
@@ -43,9 +43,17 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 <!-- Default form login -->
 
 <script>
-    document.querySelector('#sign_in').addEventListener('click', e => {
+    document.querySelector('#sign_in').addEventListener('click', async e => {
         e.preventDefault();
-        localStorage.setItem('loginToken', '123');
+        let res = await $.post('{{ site.api }}/auth/login', {
+            email: document.getElementById('defaultLoginFormEmail').value,
+            password: document.getElementById('defaultLoginFormPassword').value
+        });
+
+        if (!res) return alert("Internal Server Error");
+        if (res.error) return alert(res.error);
+
+        localStorage.setItem('loginToken', res);
         window.location.href = '/';
     });
 </script>

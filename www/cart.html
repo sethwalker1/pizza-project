@@ -20,41 +20,10 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                             <th>#</th>
                             <th>Product name</th>
                             <th>Price</th>
-                            <th>Remove</th>
+                            <!-- <th>Remove</th> -->
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Product 1</td>
-                            <td>100$</td>
-                            <td><a href="#" style="color: black"><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Product 2</td>
-                            <td>100$</td>
-                            <td><a href="#" style="color: black"><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Product 3</td>
-                            <td>100$</td>
-                            <td><a href="#" style="color: black"><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Product 4</td>
-                            <td>100$</td>
-                            <td><a href="#" style="color: black"><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr class="total">
-                            <th scope="row">5</th>
-                            <td>Total</td>
-                            <td>400$</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="table"></tbody>
                 </table>
             </form>
 
@@ -66,6 +35,41 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 <!--Modal: modalPush-->
 
 <script>
+    (async () => {
+        let token = localStorage.getItem('loginToken');
+        let res = await $.post('{{ site.api }}/cart', { token });
+        console.log(res);
+        if (!res || !res.data) console.error('error');
+        else if (res.error) alert(res.error);
+        else if (!res.data.length) {
+            // nothing in cart
+            console.log('nothing in cart')
+        } else {
+            // something in cart
+            let items = res.data;
+            let subtotal = 0;
+            items.map(item => {
+                let price = item.price * item.quantity;
+                if (item.toppings) {
+                    for (let topping of item.toppings)
+                        price += topping.price
+                }
+
+                item.price = price;
+                subtotal += price;
+
+                $('#table').append(`<tr>
+                    <th scope="row">1</th>
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <!--<td><a href="#" style="color: black"><i class="fas fa-times"></i></a></td>-->
+                </tr>`);
+                    
+            });
+            console.log(items);
+        }
+    })();
+
     document.querySelector('#check_out').addEventListener('click', e => {
         e.preventDefault();
         window.location.href = '/';

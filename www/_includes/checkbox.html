@@ -1,4 +1,4 @@
-<div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="{{ include.id }}" {% if include.checked %}checked{% endif %}>
-    <label class="custom-control-label" for="{{ include.id }}">{{ include.label }}</label>
+<div class="custom-control custom-checkbox" data-id="{{ include.id }}">
+    <input type="checkbox" class="custom-control-input" id="{{ include.eleId }}" {% if include.checked %}checked{% endif %}>
+    <label class="custom-control-label" for="{{ include.eleId }}">{{ include.label }}</label>
 </div>

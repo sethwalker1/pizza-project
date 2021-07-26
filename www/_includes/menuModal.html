@@ -22,7 +22,7 @@
                                 <div class="row" style="margin-left: 0">
                                     Quantity
                                     <div class="col-3">
-                                        <input class="form-control form-control-sm mb-2" type="text" value="1">
+                                        <input id="quantity" class="form-control form-control-sm mb-2" type="text" value="1">
                                     </div>
                                 </div>
                                 <button id="add_to_cart" class="btn btn-secondary btn-block" type="submit">Add to Cart</button>
@@ -39,8 +39,8 @@
                         {% for i in (1..size) %}
                             {% assign j = i | minus: 1 %}
                             {% assign item = site.data.toppings[j] %}
-                            {% assign id = "topping_" | append: item.name | downcase %}
-                            {% include checkbox.html id=id label=item.name %}
+                            {% assign eleId = "topping_" | append: item.name | downcase %}
+                            {% include checkbox.html id=item.id eleId=eleId label=item.name %}
 
                             {% assign row = i | modulo: breakcol %}
                             {% if row == 0 %}
@@ -124,10 +124,35 @@
 </div>
 
 <script>
-    document.querySelector('#add_to_cart').addEventListener('click', e => {
-        e.preventDefault();
-        localStorage.setItem('loginToken', '123');
-        window.location.href = '/cart';
+function getCheckedBoxes() {
+    var checkboxes = document.querySelectorAll('.custom-checkbox');
+    var checked = [];
+    for (let checkbox of checkboxes) {
+        let check = checkbox.querySelector('input').checked;
+        if (check) {
+            let id = parseInt(checkbox.attributes['data-id'].value);
+            if (!isNaN(id)) checked.push(id);
+        }
+    }
+
+    return checked;
+}
+
+document.querySelector('#add_to_cart').addEventListener('click', async e => {
+    e.preventDefault();
+    let res = await $.post('{{ site.api }}/cart/add', {
+        token: localStorage.getItem('loginToken'),
+        product: document.querySelector('#add_to_cart').attributes['data-id'].value,
+        quantity: parseInt(document.getElementById('quantity').value),
+        toppings: getCheckedBoxes()
     });
+
+    if (typeof res !== 'string') return alert("Internal Server Error");
+    if (res.error) return alert(res.error);
+
+    let cartItems = parseInt(localStorage.getItem('cartItems') || 0);
+    localStorage.setItem('cartItems', cartItems + 1);
+    window.location.href = '/cart';
+});
 </script>
 

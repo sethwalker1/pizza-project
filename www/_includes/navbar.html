@@ -13,38 +13,14 @@
 
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <!-- Dropdown -->
-        <li class="nav-item dropdown">
-          {%- comment -%} <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-align-justify"></i>
-          </a>
-          <!-- Dropdown menu -->
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <a class="dropdown-item" href="#">Action</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Another action</a>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
-          </ul> {%- endcomment -%}
-        </li>
-
-      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
       <!-- Icons -->
       <ul class="navbar-nav d-flex flex-row me-1">
-        <li class="nav-item me-3 me-lg-0">
+        <li id="login" class="nav-item me-3 me-lg-0" style="display: none">
           <a class="nav-link" href="/login"><i class="fas fa-user-alt"></i></a>
         </li>
-        <li class="nav-item me-3 me-lg-0">
+        <li id="logout" class="nav-item me-3 me-lg-0" style="display: none">
           <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
         </li>
         <li class="nav-item me-3 me-lg-0">
@@ -57,3 +33,9 @@
   <!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
+
+<script>
+  let token = localStorage.getItem('loginToken'), btn;
+  btn = token ? document.querySelector('#logout') : document.querySelector('#login');
+  btn.style.display = 'block';
+</script>

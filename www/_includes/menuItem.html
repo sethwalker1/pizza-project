@@ -6,7 +6,7 @@
         <div class="col-md-6 col-lg-8">
             <h3 class="mt-2">{{ include.name }}</h3>
             <p>{{ include.desc }}</p>
-            <a class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#menuModal" onclick="change_preview('{{ include.img }}')">Order</a>
+            <a class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#menuModal" onclick="updateModal(parseInt('{{ include.id }}'), '{{ include.img }}')">Order</a>
         </div>
     </div>
 </div>

@@ -51,7 +51,15 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
 <script>
     document.querySelector('#sign_up').addEventListener('click', e => {
         e.preventDefault();
-        localStorage.setItem('loginToken', '123');
+        let res = await $.post('{{ site.api }}/auth/login', {
+            email: document.getElementById('defaultRegisterFormEmail').value,
+            password: document.getElementById('defaultLoginFormPassword').value
+        });
+
+        if (!res) return alert("Internal Server Error");
+        if (res.error) return alert(res.error);
+
+        localStorage.setItem('loginToken', res);
         window.location.href = '/';
     });
 </script>

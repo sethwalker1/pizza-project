@@ -3,11 +3,9 @@ email: seth@sethw.me
 description: >-
   A simple and efficient website for ordering high quality pizzas.
 url: "https://pizza-project.sethw.me/"
+api: http://localhost:8080
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
-
-exclude:
-  - api

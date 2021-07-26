@@ -22,6 +22,11 @@
         <link href="/cdn/css/global.css" rel="stylesheet" />
     </head>
     <body>
+        <!-- Jquery -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        ></script>
         {% include navbar.html %}
         <div class="container-fluid {% if page.container_class %}{{ page.container_class }}{% endif %}">
             {{ content }}
