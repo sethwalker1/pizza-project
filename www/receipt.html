@@ -28,10 +28,12 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             </form>
 
             <div class="d-inline-flex pb-3">
-                <!-- <p class="mx-2 my-auto">Order #<span id="order_no">0</span></p> -->
+                <p class="mx-2 my-auto">Order #<span id="order_no">0</span></p>
                 <p class="mx-2 my-auto">Ordered at: <span id="time">--</span></p>
-                <p class="mx-2 my-auto">Subtotal: $<span id="subtotal">0.00</span></p>
             </div>
+            <p class="mx-2 my-auto">Subtotal: $<span id="subtotal">0.00</span></p>
+            <p class="mx-2 my-auto">Taxes: $<span id="taxes">0.00</span></p>
+            <p class="mx-2 my-auto">Total: $<span id="total">0.00</span></p>
         </div>
     </div>
     <!--/.Content-->
@@ -62,7 +64,8 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
         else {
             // something in cart
             let { id, time, items } = res.data;
-            // $('#order_no').html(id)
+            $('#order_no').html(id)
+
             let timestamp = new Date(time * 1000).toLocaleDateString('en-us', {
                 year: 'numeric',
                 month: 'numeric',
@@ -94,8 +97,13 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             });
             console.log(items);
 
-            subtotal = subtotal.toFixed(2);
-            $('#subtotal').html(subtotal);
+            $(`#subtotal`).html(subtotal.toFixed(2));
+
+            let taxes = subtotal * 0.07;
+            $(`#taxes`).html(taxes.toFixed(2));
+
+            let total = subtotal + taxes;
+            $(`#total`).html(total.toFixed(2));
         }
     })();
 </script>

@@ -6,7 +6,6 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bson-ext": "^2.0.5",
-    "concurrently": "^6.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql": "^2.18.1"
@@ -15,6 +14,7 @@
   "scripts": {
     "server": "node server.js",
     "web": "cd www && bundle exec jekyll serve && cd ../",
+    "start": "npm run web",
     "dev": "concurrently \"npm run server\" \"npm run web\""
   },
   "author": "",

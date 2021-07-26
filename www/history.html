@@ -19,7 +19,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             parent.remove();
 
             let subtotal = $('#subtotal');
-            subtotal.html(`$${(Number(subtotal.text().slice(1)) - price).toFixed(2)}`);
+            subtotal.html((Number(subtotal.text().slice(1)) - price).toFixed(2));
         }
     }
 
@@ -50,16 +50,21 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                                 </table>
                             </form>
 
+
                             <div class="d-inline-flex pb-3">
-                                <!--<p class="mx-2 my-auto">Order #<span class="order_no">0</span></p>-->
+                                <p class="mx-2 my-auto">Order #<span class="order_no">0</span></p>
                                 <p class="mx-2 my-auto">Ordered at: <span class="time">--</span></p>
-                                <p class="mx-2 my-auto">Subtotal: <span class="subtotal">$0.00</span></p>
                             </div>
+                            <p class="mx-2 my-auto">Subtotal: $<span class="subtotal">0.00</span></p>
+                            <p class="mx-2 my-auto">Taxes: $<span class="taxes">0.00</span></p>
+                            <p class="mx-2 my-auto">Total: $<span class="total">0.00</span></p>
                         </div>
                     </div>
                 </div>`);
 
                 let { id, time, items } = order;
+                $(`[data-order-id="${order.id}"] .order_no`).html(id)
+
                 console.log({ id, time, items });
                 let timestamp = new Date(time * 1000).toLocaleDateString('en-us', {
                     year: 'numeric',
@@ -93,8 +98,13 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                 });
                 console.log(items);
 
-                subtotal = subtotal.toFixed(2);
-                $(`[data-order-id="${order.id}"] .subtotal`).html(`$${subtotal}`);
+                $(`[data-order-id="${order.id}"] .subtotal`).html(subtotal.toFixed(2));
+
+                let taxes = subtotal * 0.07;
+                $(`[data-order-id="${order.id}"] .taxes`).html(taxes.toFixed(2));
+
+                let total = subtotal + taxes;
+                $(`[data-order-id="${order.id}"] .total`).html(total.toFixed(2));
             });
         }
     })();

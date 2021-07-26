@@ -32,7 +32,11 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                     <option value="1" selected>Takeout</option>
                     <option value="2">Delivery</option>
                 </select>
-                <p class="mx-2 my-auto">Subtotal: <span id="subtotal">$0.00</span></p>
+                <div class="text-end">
+                    <p class="mx-2 my-auto">Subtotal: $<span id="subtotal">0.00</span></p>
+                    <p class="mx-2 my-auto">Taxes: $<span id="taxes">0.00</span></p>
+                    <p class="mx-2 my-auto">Total: $<span id="total">0.00</span></p>
+                </div>
             </div>
 
             <button id="check_out" class="btn btn-secondary btn-block mb-4" type="submit">Check out</button>
@@ -53,7 +57,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             parent.remove();
 
             let subtotal = $('#subtotal');
-            subtotal.html(`$${(Number(subtotal.text().slice(1)) - price).toFixed(2)}`);
+            subtotal.html((Number(subtotal.text().slice(1)) - price).toFixed(2));
         }
     }
 
@@ -88,8 +92,13 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
             });
             console.log(items);
 
-            subtotal = subtotal.toFixed(2);
-            $('#subtotal').html(`$${subtotal}`);
+            $(`#subtotal`).html(subtotal.toFixed(2));
+
+            let taxes = subtotal * 0.07;
+            $(`#taxes`).html(taxes.toFixed(2));
+
+            let total = subtotal + taxes;
+            $(`#total`).html(total.toFixed(2));
         }
     })();
 

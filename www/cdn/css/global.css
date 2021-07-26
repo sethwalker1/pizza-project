@@ -84,6 +84,7 @@ html, body {
 }
 
 .custom-select {
+    height: 2.5rem;
     padding: .375rem 1.75rem .375rem .75rem;
     color: #495057;
     vertical-align: middle;
