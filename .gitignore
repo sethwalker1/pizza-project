@@ -2,5 +2,7 @@ _site
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
+package-lock.json
+node_modules
 vendor
 Gemfile.lock
