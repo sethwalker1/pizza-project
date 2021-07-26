@@ -42,14 +42,18 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
         let res = await $.post('{{ site.api }}/cart/remove', { token, id });
         if (typeof res === 'string') {
             let item = $(`a[data-id="${id}"]`);
-            item.parent().parent().remove();
+            let parent = item.parent().parent();
+            let price = Number(parent[0].querySelector('.price').innerHTML);
+            parent.remove();
+
+            let subtotal = $('#subtotal');
+            subtotal.html(`$${(Number(subtotal.text().slice(1)) - price).toFixed(2)}`);
         }
     }
 
     (async () => {
         let token = localStorage.getItem('loginToken');
         let res = await $.post('{{ site.api }}/cart/fetch', { token });
-        console.log(res);
         if (!res || !res.data) console.error('error');
         else if (res.error) alert(res.error);
         else if (!res.data.length) {
@@ -72,7 +76,7 @@ container_class: col-xl-5 col-lg-6 col-sm-8 d-flex flex-column justify-content-c
                 $('#table').append(`<tr>
                     <th scope="row">1</th>
                     <td>${item.name}</td>
-                    <td>${item.price}</td>
+                    <td class="price">${item.price}</td>
                     <td><a href="#" onclick="removeItem(${item.id})" data-id="${item.id}" style="color: black"><i class="fas fa-times"></i></a></td>
                 </tr>`);
             });

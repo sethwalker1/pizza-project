@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router();
 
 router.post('/fetch', async (req, res) => {
-    console.log('/cart')
     const {
         body: { token },
         method,
@@ -24,7 +23,6 @@ router.post('/fetch', async (req, res) => {
     if (!order) return res.json({ data: [] })
     order = order.id
 
-    console.log(order);
     let items = await sql.query(`
         SELECT items.id, items.product_id, items.quantity, products.name, products.cost as price FROM orders
         INNER JOIN order_items as items
@@ -57,7 +55,6 @@ router.post('/fetch', async (req, res) => {
         }
     }
     
-    console.log(result);
     res.json({ data: Object.values(result) });
 });
 
